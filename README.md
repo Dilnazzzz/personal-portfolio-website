@@ -37,7 +37,7 @@ Option A — Nixpacks (simple):
 Option B — Docker (more control):
 
 - Ensure the Dockerfile is selected in Railway service settings.
-- No extra config needed; container listens on `PORT`.
+- In the service **Variables** tab, set `PORT=3000` (avoids 502 if Railway’s injected port isn’t picked up). The app listens on `0.0.0.0` and uses `PORT` for the port.
 
 When you’re ready to attach your custom domain:
 
@@ -62,4 +62,3 @@ When you’re ready to attach your custom domain:
 ## License
 
 You own your content. No license file included by default.
-

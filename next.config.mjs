@@ -4,10 +4,9 @@ const nextConfig = {
   experimental: {
     typedRoutes: true,
   },
-  output: 'standalone',
   eslint: {
-    dirs: ['src']
-  }
-}
+    dirs: ['src'],
+  },
+};
 
-export default nextConfig
+export default nextConfig;

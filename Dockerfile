@@ -6,29 +6,29 @@ FROM base AS deps
 WORKDIR /app
 
 # Install dependencies (include dev deps for build: Tailwind/PostCSS/TS)
-# Copies package.json and optionally package-lock.json if present
 COPY package*.json ./
 RUN npm install --legacy-peer-deps
 
 FROM deps AS builder
 WORKDIR /app
 COPY . .
-# Build the Next.js app (standalone output)
 RUN npm run build
 
 FROM node:20-bullseye-slim AS runner
 WORKDIR /app
 
 ENV NODE_ENV=production \
-    PORT=3000 \
     HOSTNAME=0.0.0.0 \
     NEXT_TELEMETRY_DISABLED=1
 
-# Copy only the necessary files from builder
-COPY --from=builder /app/package.json ./package.json
-COPY --from=builder /app/.next/standalone ./
-COPY --from=builder /app/.next/static ./.next/static
+# Production deps only (for next start)
+COPY --from=builder /app/package*.json ./
+RUN npm ci --omit=dev --legacy-peer-deps
+
+# Copy build output and public assets
+COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
 
 EXPOSE 3000
-CMD ["node", "server.js"]
+# Listen on 0.0.0.0 and use Railway's PORT (set PORT=3000 in Railway if you get 502)
+CMD ["sh", "-c", "next start -H 0.0.0.0 -p ${PORT:-3000}"]
