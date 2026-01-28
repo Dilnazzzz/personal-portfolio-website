@@ -31,4 +31,4 @@ COPY --from=builder /app/public ./public
 
 EXPOSE 3000
 # Listen on 0.0.0.0 and use Railway's PORT (set PORT=3000 in Railway if you get 502)
-CMD ["sh", "-c", "next start -H 0.0.0.0 -p ${PORT:-3000}"]
+CMD ["sh", "-c", "npx next start -H 0.0.0.0 -p ${PORT:-3000}"]
