@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: 255 255 255;
+  --fg: 9 9 11;
+}
+
+.dark {
+  --bg: 9 9 11;
+  --fg: 244 244 245;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  @apply bg-[rgb(var(--bg))] text-[rgb(var(--fg))] antialiased;
+}
+
+.prose :where(img):not(:where([class~="not-prose"] *)) {
+  @apply rounded-lg border border-zinc-200 dark:border-zinc-800;
+}
+
