@@ -23,7 +23,7 @@ ENV NODE_ENV=production \
 
 # Production deps only (for next start)
 COPY --from=builder /app/package*.json ./
-RUN npm ci --omit=dev --legacy-peer-deps
+RUN npm install --omit=dev --legacy-peer-deps
 
 # Copy build output and public assets
 COPY --from=builder /app/.next ./.next
